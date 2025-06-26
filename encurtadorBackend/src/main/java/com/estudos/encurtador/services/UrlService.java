@@ -1,0 +1,56 @@
+package com.estudos.encurtador.services;
+
+import java.time.LocalDateTime;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.estudos.encurtador.model.UrlEntity;
+import com.estudos.encurtador.repository.UrlRepository;
+
+@Service
+public class UrlService {
+
+  @Autowired
+  private UrlRepository urlRepository;
+
+  public String shorterUrl (String originalUrl){
+
+    String shortUrl = gerarUrlRandom();
+    UrlEntity urlEntity = new UrlEntity();
+
+    urlEntity.setOriginalUrl(originalUrl);
+    urlEntity.setShortUrl(shortUrl);
+    urlEntity.setExpiresDate(LocalDateTime.now().plusDays(10));
+
+    urlRepository.save(urlEntity);
+    return shortUrl;
+  }
+
+
+  private String gerarUrlRandom(){
+    Random random = new Random();
+
+    int tamanho = random.nextInt(5,11);
+    StringBuilder url = new StringBuilder();
+
+    System.out.println("Tamanho sorteado: "+tamanho);
+    
+    for (int i = 0; i < tamanho; i++) {
+      int indexCharacter = random.nextInt(65, 91);
+      char character = (char) indexCharacter;
+      url.append(character);
+      System.out.println("letra da vez "+character);
+    }
+
+    while (tamanho < 10){
+      int numRandom = random.nextInt(0,10);
+      url.append(numRandom);
+      tamanho++;
+    }
+
+    return url.toString();
+  }
+}
+

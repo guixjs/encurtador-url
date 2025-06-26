@@ -2,7 +2,6 @@ package com.estudos.encurtador;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 public class SitePreview {
     public static void main(String[] args) throws Exception {

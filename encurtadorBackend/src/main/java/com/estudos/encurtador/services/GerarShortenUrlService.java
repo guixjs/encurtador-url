@@ -10,19 +10,19 @@ import com.estudos.encurtador.model.UrlEntity;
 import com.estudos.encurtador.repository.UrlRepository;
 
 @Service
-public class UrlService {
+public class GerarShortenUrlService {
 
   @Autowired
   private UrlRepository urlRepository;
 
-  public String shorterUrl (String originalUrl){
+  public String execute (String originalUrl){
 
     String shortUrl = gerarUrlRandom();
     UrlEntity urlEntity = new UrlEntity();
 
     urlEntity.setOriginalUrl(originalUrl);
     urlEntity.setShortUrl(shortUrl);
-    urlEntity.setExpiresDate(LocalDateTime.now().plusDays(10));
+    urlEntity.setExpiresDate(LocalDateTime.now().plusMinutes(5));
 
     urlRepository.save(urlEntity);
     return shortUrl;
@@ -35,13 +35,10 @@ public class UrlService {
     int tamanho = random.nextInt(5,11);
     StringBuilder url = new StringBuilder();
 
-    System.out.println("Tamanho sorteado: "+tamanho);
-    
     for (int i = 0; i < tamanho; i++) {
       int indexCharacter = random.nextInt(65, 91);
       char character = (char) indexCharacter;
       url.append(character);
-      System.out.println("letra da vez "+character);
     }
 
     while (tamanho < 10){
@@ -49,7 +46,7 @@ public class UrlService {
       url.append(numRandom);
       tamanho++;
     }
-
+    
     return url.toString();
   }
 }
